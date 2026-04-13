@@ -68,7 +68,7 @@ def seleccionar_padres(poblacion, fitness, n_padres=2, n_torneo=5):
     for gen in indices_torneo:
         candidatos.append((poblacion[gen], fitness[gen]))
     
-    candidatos_ordenados = sorted(candidatos, key=lambda x: x[1], reverse=True)
+    candidatos_ordenados = sorted(candidatos, key=lambda x: x[1])
     
     ganadores = [c[0] for c in candidatos_ordenados[:n_padres]]
     
@@ -249,23 +249,20 @@ def cruce_bordes(p1, p2):
 def seleccion_supervivientes(poblacion_actual, hijos, fitness_actual, elitismo=True):
     tam_poblacion = len(poblacion_actual)
     
-    hijos = np.array(hijos)  # 🔥 CLAVE
+    hijos = np.array(hijos)
     
     if not elitismo:
         return hijos[:tam_poblacion]
     
     n_elite = max(1, int(tam_poblacion * 0.05))
     
-    # elites
     idx_elite = np.argpartition(fitness_actual, n_elite)[:n_elite]
     elites = poblacion_actual[idx_elite]
     
-    # selección rápida de hijos
     n_hijos_necesarios = tam_poblacion - n_elite
     idx = np.random.choice(len(hijos), n_hijos_necesarios, replace=False)
     hijos_seleccionados = hijos[idx]
     
-    # combinar correctamente
     nueva_poblacion = np.vstack((elites, hijos_seleccionados))
     
     return nueva_poblacion
@@ -299,11 +296,10 @@ def calcular_diversidad(poblacion, muestras=200):
         
     return np.mean(distancias)
 
-def algoritmo_genetico(metodo_cruza, metodo_mutacion, con_elitismo, tasa_mutacion, tamano_poblacion, max_generaciones=30): 
+def algoritmo_genetico(metodo_cruza, metodo_mutacion, con_elitismo, tasa_mutacion, tamano_poblacion, matriz_distancia, max_generaciones=30): 
     historial = {'min': [], 'max': [], 'mean': [], 'div': []}
 
     poblacion = generar_poblacion(tamano_poblacion) 
-    matriz_distancia = calcular_matriz_distancias(ciudades)
 
     for generacion in range(max_generaciones):
         # 1. Evaluación 
@@ -319,14 +315,20 @@ def algoritmo_genetico(metodo_cruza, metodo_mutacion, con_elitismo, tasa_mutacio
         # 3. Construcción de la nueva generación
         hijos = []
         
+        # Generamos suficientes hijos para llenar la población
         for _ in range(tamano_poblacion // 2):
             padres = seleccionar_padres(poblacion, aptitudes)
             
             h1, h2 = metodo_cruza(list(padres[0]), list(padres[1]))
 
+            h1 = list(h1)
+            h2 = list(h2)
 
             h1 = metodo_mutacion(h1, tasa_mutacion)
             h2 = metodo_mutacion(h2, tasa_mutacion)
+
+            h1 = np.array(h1)
+            h2 = np.array(h2)
 
             hijos.extend([h1, h2])
 
@@ -341,20 +343,12 @@ def algoritmo_genetico(metodo_cruza, metodo_mutacion, con_elitismo, tasa_mutacio
 
     return mejor_individuo, historial
 
-
-def mostrar_individuo(individuo):
-    datos_individuo = []
-    for gen in individuo:
-        datos_individuo.append(ciudades[gen].get("nombre"))
-
-    return datos_individuo
-
 configuraciones = {
-    'cruza': [cruce_ciclos],
-    'mutacion': [mutacion_inversion],
+    'cruza': [cruce_pmx, cruce_bordes, cruce_ciclos, cruce_orden],
+    'mutacion': [mutacion_intercambio],
     'elitismo': [True, False],
-    'tasa_mutacion': [0.05, 0.10, 0.20],
-    'tam_poblacion': [50, 100, 200]
+    'tasa_mutacion': [0.05],
+    'tam_poblacion': [100]
 }
 
 resultados_totales = []
@@ -370,6 +364,7 @@ combinaciones = list(itertools.product(
 print(f"Iniciando experimentos. Total configuraciones: {len(combinaciones)}")
 
 N_EJECUCIONES = 30
+matriz_distancia = calcular_matriz_distancias(ciudades)
 
 for cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion in combinaciones:
     
@@ -379,7 +374,7 @@ for cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion in combinaciones:
     for ejecucion in range(N_EJECUCIONES):
         
         mejor_ind, historial = algoritmo_genetico(
-        cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion, max_generaciones=200
+        cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion, matriz_distancia, max_generaciones=200
         )   
     
         mejor_fitness = historial['min'][-1]
@@ -390,9 +385,9 @@ for cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion in combinaciones:
             'Mutacion': mutacion.__name__,
             'Tasa_mutacion': tasa_mutacion,
             'Tam_poblacion': tam_poblacion,
+            'Ejecución No.': ejecucion, 
             'Elitismo': elitismo,
             'Mejor_Fitness': mejor_fitness,
-            'Ejecución No.': ejecucion, 
             'Diversidad_Final': historial['div'][-1],
         })
 
@@ -401,6 +396,6 @@ for cruza, mutacion, elitismo, tasa_mutacion, tam_poblacion in combinaciones:
 df_resultados = pd.DataFrame(resultados_totales)
 
 # Guardar CSV
-df_resultados.to_csv('resultados_tsp_fase_2.csv', index=False)
+df_resultados.to_csv('resultados_tsp.csv', index=False)
 
 print("Experimentos completados")
