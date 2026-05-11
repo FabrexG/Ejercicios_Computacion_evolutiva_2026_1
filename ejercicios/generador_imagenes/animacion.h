@@ -1,205 +1,28 @@
-#ifndef ANIM_BITMAP_H
-#define ANIM_BITMAP_H
+#include <Arduino.h>
 
-#include <avr/pgmspace.h>
-
-#define MI_ANIMACION_WIDTH 8
-#define MI_ANIMACION_HEIGHT 8
-#define MI_ANIMACION_FRAMES 16
-
-const unsigned char mi_animacion_frame_0[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11000011, 0b,
-  0b11000011, 0b,
-  0b11000011, 0b,
-  0b11000011, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
+const uint8_t miAnimacion[24][8] PROGMEM = {
+  {0x00, 0x66, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C, 0x18},
+  {0x00, 0x66, 0xF7, 0xEF, 0xFF, 0x7E, 0x3C, 0x18},
+  {0x00, 0x66, 0xF7, 0xEF, 0xF7, 0x7E, 0x3C, 0x18},
+  {0x00, 0x66, 0xF7, 0xEF, 0xF7, 0x7A, 0x3C, 0x18},
+  {0x00, 0x66, 0xF3, 0xE7, 0xF2, 0x78, 0x3C, 0x18},
+  {0x00, 0x60, 0xF6, 0xE3, 0xF7, 0x7A, 0x3C, 0x18},
+  {0x00, 0x60, 0xF0, 0xE6, 0xF1, 0x7B, 0x3E, 0x18},
+  {0x00, 0x60, 0xF0, 0xE0, 0xF2, 0x79, 0x3D, 0x1A},
+  {0x00, 0x60, 0xF0, 0xE0, 0xF0, 0x7A, 0x3D, 0x19},
+  {0x00, 0x60, 0xF0, 0xE0, 0xF0, 0x78, 0x3D, 0x1B},
+  {0x00, 0x60, 0xF0, 0xE0, 0xF0, 0x78, 0x3C, 0x18},
+  {0x00, 0x30, 0x98, 0xC0, 0xF0, 0x78, 0x3C, 0x18},
+  {0x00, 0x00, 0x98, 0xCC, 0xB0, 0x78, 0x3C, 0x18},
+  {0x00, 0x00, 0x00, 0x8C, 0xD6, 0xB8, 0x3C, 0x18},
+  {0x00, 0x00, 0x00, 0x00, 0x96, 0xBB, 0x3C, 0x18},
+  {0x00, 0x00, 0x00, 0x00, 0x10, 0xBA, 0x3B, 0x19},
+  {0x00, 0x00, 0x00, 0x00, 0x10, 0x18, 0xBB, 0x19},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x3A, 0x99},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x28, 0x19},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x28, 0x58},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x50},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x10},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 };
-
-const unsigned char mi_animacion_frame_1[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_2[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11001011, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_3[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11110111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_4[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_5[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_6[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11001011, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_7[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11110111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_8[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_9[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11100111, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_10[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b11001011, 0b,
-  0b11111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_11[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11000011, 0b,
-  0b11000011, 0b,
-  0b11111111, 0b,
-  0b11100011, 0b,
-  0b11110111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_12[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b11010011, 0b,
-  0b11001111, 0b,
-  0b11000011, 0b,
-  0b01010011, 0b,
-  0b01111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_13[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b01010011, 0b,
-  0b11000011, 0b,
-  0b11100011, 0b,
-  0b10000011, 0b,
-  0b11011011, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_14[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b01000111, 0b,
-  0b10000011, 0b,
-  0b11000011, 0b,
-  0b11000011, 0b,
-  0b00011111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char mi_animacion_frame_15[] PROGMEM = {
-  0b11111111, 0b,
-  0b11111111, 0b,
-  0b01000111, 0b,
-  0b10000011, 0b,
-  0b11000011, 0b,
-  0b11010011, 0b,
-  0b01111111, 0b,
-  0b11111111, 0b,
-};
-
-const unsigned char* mi_animacion_frames[] = {
-  mi_animacion_frame_0,
-  mi_animacion_frame_1,
-  mi_animacion_frame_2,
-  mi_animacion_frame_3,
-  mi_animacion_frame_4,
-  mi_animacion_frame_5,
-  mi_animacion_frame_6,
-  mi_animacion_frame_7,
-  mi_animacion_frame_8,
-  mi_animacion_frame_9,
-  mi_animacion_frame_10,
-  mi_animacion_frame_11,
-  mi_animacion_frame_12,
-  mi_animacion_frame_13,
-  mi_animacion_frame_14,
-  mi_animacion_frame_15,
-};
-
-#endif
