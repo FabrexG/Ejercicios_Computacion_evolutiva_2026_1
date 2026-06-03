@@ -5,3 +5,8 @@ examen_2/data/cc.es.300.bin
 examen_2/data/ES.bin
 examen_2/data/MX.bin
 Proyecto_CE/Modelos/mini_robertuito_v1.pth
+Proyecto_CE/Modelos/best_beto.pth
+Proyecto_CE/embeddings_qwen_humor_train_embeddings.npy
+Proyecto_CE/embeddings_qwen_humor_embeddings.npy
+Proyecto_CE/Modelos/svm_model.pkl
+Proyecto_CE/Modelos/best_robertuito.pth
